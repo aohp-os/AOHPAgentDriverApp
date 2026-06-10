@@ -1,0 +1,93 @@
+name: Update Version and Build APK
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  update-version-and-build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Decode keystore
+        run: |
+          echo "${{ secrets.SIGNING_KEY }}" | base64 -d > app/my-release-key.jks
+
+      - name: Update version and check tags
+        id: update_version
+        run: |
+          # 读取当前版本号
+          current_version=$(grep 'versionName' app/build.gradle | awk '{print $2}' | tr -d '"')
+          current_version=${current_version%% *}
+
+          # 检查是否已有相同的 tag
+          if git tag | grep -q "v$current_version"; then
+            echo "Tag v$current_version already exists. No new tag created."
+            echo "tag_exists=true" >> $GITHUB_ENV
+          else
+            # 创建新标签并推送
+            git config --local user.email "action@github.com"
+            git config --local user.name "GitHub Action"
+            git tag "v$current_version"
+            git push origin main --tags
+            
+            current_dir=$(pwd)
+            cd ..
+            git clone https://x-access-token:${{ secrets.GH_PAT }}@github.com/MobileLLM/RuyiClientAPK.git
+            cd RuyiClientAPK
+            git config --local user.email "action@github.com"
+            git config --local user.name "GitHub Action"
+            echo -e "\n## v$current_version - Version Update\n- Updated version to v$current_version" >> README.md
+            git add README.md
+            git commit -m "Update README for version $current_version"
+            git push origin main
+            
+            git tag "v$current_version"
+            git push origin main --tags
+            cd $current_dir
+          
+            echo "tag_exists=false" >> $GITHUB_ENV
+          fi
+
+          # 设置当前版本号为输出
+          echo "current_version=$current_version" >> $GITHUB_ENV
+        env:
+          GITHUB_TOKEN: ${{ secrets.GH_PAT }}
+
+      - name: Set up JDK
+        uses: actions/setup-java@v2
+        with:
+          java-version: '17'
+          distribution: 'adopt'
+
+      - name: Build with Gradle
+        if: env.tag_exists == 'false' # 仅在新标签创建时构建
+        run: ./gradlew assembleRelease
+        env:
+          KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
+          KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
+          STORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
+
+      - name: Upload APK
+        if: env.tag_exists == 'false' # 仅在新标签创建时上传
+        uses: actions/upload-artifact@v4
+        with:
+          name: RuyiClient-release.apk
+          path: app/build/outputs/apk/release/RuyiClient-release.apk
+
+      - name: Create Release
+        if: env.tag_exists == 'false' # 仅在新标签创建时创建 Release
+        uses: softprops/action-gh-release@v1
+        with:
+          tag_name: "v${{ env.current_version }}" # 使用当前版本号作为标签
+          release_name: "Release v${{ env.current_version }}" # Release 名称
+          body: "自动生成的 Release" # Release 描述
+          draft: false
+          prerelease: false
+          files: app/build/outputs/apk/release/RuyiClient-release.apk
+          repository: MobileLLM/RuyiClientAPK
+        env:
+          GITHUB_TOKEN: ${{ secrets.GH_PAT }}

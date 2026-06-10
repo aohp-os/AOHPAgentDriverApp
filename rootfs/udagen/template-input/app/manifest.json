@@ -1,0 +1,14 @@
+{
+  "name": "User Defined App",
+  "short_name": "UDA",
+  "theme_color": "#4F46E5",
+  "background_color": "#FFFFFF",
+  "description": "AOHP personalized HTML app — edit name/short_name before generate for launcher label",
+  "icons": [
+    {
+      "src": "icon.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    }
+  ]
+}

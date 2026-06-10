@@ -1,0 +1,263 @@
+<resources>
+    <string name="app_name">AOHP Agent Driver</string>
+
+    <string name="accessibility_service_description">AOHP Agent Driver accessibility service</string>
+    <string name="accessibility_service_label">AOHP Agent Driver</string>
+
+    <!-- Navigation -->
+    <string name="nav_linux_sandbox">Linux Sandbox</string>
+    <string name="nav_virtual_display">Virtual Display</string>
+    <string name="nav_uda_apps">Custom Apps</string>
+    <string name="menu_settings">Settings</string>
+
+    <!-- Main / quick launch -->
+    <string name="quick_launch_title">🚀 Quick launch task</string>
+    <string name="quick_launch_hint">Enter a task description…</string>
+    <string name="quick_launch_start">Start</string>
+    <string name="execution_status_preparing">Status: Preparing…</string>
+    <string name="execution_status_format">Status: %1$s</string>
+    <string name="toast_enter_task_description">Enter a task description</string>
+    <string name="settings_not_implemented">Settings not implemented yet</string>
+
+    <!-- Permissions -->
+    <string name="permission_request_title">Permission required</string>
+    <string name="permission_request_intro">To use %1$s properly, the following permissions are needed:\n\n</string>
+    <string name="permission_request_footer">\nTap OK to grant them one by one.</string>
+    <string name="action_ok">OK</string>
+    <string name="action_cancel">Cancel</string>
+    <string name="permission_overlay">Display over other apps</string>
+    <string name="permission_accessibility">Accessibility service</string>
+    <string name="permission_screen_capture">Screen capture</string>
+    <string name="permission_notification">Notifications</string>
+    <string name="permission_storage">Storage</string>
+    <string name="permission_unknown">Unknown permission</string>
+    <string name="permission_restore_title">Permission lost</string>
+    <string name="permission_restore_message">%1$s was revoked. Please grant it again.</string>
+    <string name="permission_restore_action">Grant</string>
+    <string name="permission_restored_toast">%1$s restored</string>
+
+    <!-- Quick execution log -->
+    <string name="exec_status_preparing">Preparing…</string>
+    <string name="exec_log_task">📋 Task: %1$s</string>
+    <string name="exec_status_starting_service">Starting services…</string>
+    <string name="exec_log_ws_start">🚀 Starting WebSocket service…</string>
+    <string name="exec_log_ws_started">✅ WebSocket service started</string>
+    <string name="exec_log_ws_failed">❌ Failed to start WebSocket: %1$s</string>
+    <string name="exec_status_start_failed">Start failed</string>
+    <string name="exec_log_create_vd">📺 Creating virtual display via AOHP…</string>
+    <string name="exec_log_aohp_unavailable">❌ AOHP virtual display service unavailable</string>
+    <string name="exec_status_aohp_unavailable">AOHP unavailable</string>
+    <string name="exec_log_missing_vd_permission">❌ Missing MANAGE_AOHP_VIRTUAL_DISPLAY (platform-signed priv-app required)</string>
+    <string name="exec_status_missing_aohp_perm">Missing AOHP permission</string>
+    <string name="exec_log_create_vd_failed">❌ Failed to create AOHP virtual display: %1$s</string>
+    <string name="exec_status_vd_create_failed">Virtual display creation failed</string>
+    <string name="exec_log_vd_created">✅ AOHP virtual display id=%1$d</string>
+    <string name="exec_log_commands_routed">🎯 Commands will route to this display</string>
+    <string name="exec_log_parse_display_failed">❌ Failed to parse displayId: %1$s</string>
+    <string name="exec_log_nl_removed">ℹ️ Natural-language inline execution was removed. Use aohp CLI in Linux Sandbox, or JSON-RPC / skill tests in other tabs.</string>
+    <string name="exec_status_use_cli">Use aohp CLI</string>
+
+    <!-- Virtual display test -->
+    <string name="vd_test_title">🖥️ Virtual display test</string>
+    <string name="vd_aohp_service_label">AOHP service:</string>
+    <string name="vd_status_checking">Checking…</string>
+    <string name="vd_section_create">Virtual display (AOHP createVirtualDisplay)</string>
+    <string name="vd_create">Create</string>
+    <string name="vd_destroy_latest">Destroy latest</string>
+    <string name="vd_created_ids_label">Created displayIds:</string>
+    <string name="vd_none">(none)</string>
+    <string name="vd_fullscreen_snapshot">Fullscreen task snapshot</string>
+    <string name="vd_clear_log">Clear log</string>
+    <string name="vd_toast_service_unavailable">AOHP virtual display service unavailable</string>
+    <string name="vd_toast_need_manage_perm">MANAGE_AOHP_VIRTUAL_DISPLAY permission required</string>
+    <string name="vd_toast_no_vd_records">No AOHP VD records</string>
+    <string name="vd_snapshot_failed">Failed to get snapshot</string>
+    <string name="vd_parse_snapshot_failed">Failed to parse snapshot: %1$s</string>
+    <string name="vd_snapshot_dialog_title">Fullscreen task snapshot (%1$d displays)</string>
+    <string name="vd_status_available">Available ✓</string>
+    <string name="vd_status_no_permission">No permission ✗</string>
+    <string name="vd_status_unavailable">Unavailable ✗</string>
+    <string name="vd_log_service_ok">AohpVirtualDisplayService is available (registered with MANAGE_AOHP_VIRTUAL_DISPLAY)</string>
+    <string name="vd_log_missing_perm">System registered aohp_virtual_display but this app lacks MANAGE_AOHP_VIRTUAL_DISPLAY.</string>
+    <string name="vd_log_use_platform_build">Use platform-signed priv-app built with lunch AOHP target (not adb install debug APK only).</string>
+    <string name="vd_log_binder_missing">aohp_virtual_display not detected (Binder not registered).</string>
+    <string name="vd_log_flash_aohp_image">Flash an AOHP-patched system image; installing APK alone cannot provide this service.</string>
+    <string name="vd_log_sepolicy_hint">If AOHP is flashed and still fails: check sepolicy; ro.build.fingerprint=%1$s</string>
+    <string name="vd_log_cannot_create_no_service">Cannot create: aohp_virtual_display not detected</string>
+    <string name="vd_log_cannot_create_no_perm">Cannot create: missing MANAGE_AOHP_VIRTUAL_DISPLAY</string>
+    <string name="snapshot_task_visible">visible</string>
+    <string name="snapshot_task_hidden">hidden</string>
+    <string name="snapshot_task_line">RootTask #%1$d  ·  z=%2$d  ·  %3$s  ·  activities=%4$d</string>
+
+    <!-- Linux sandbox -->
+    <string name="sandbox_title">Linux sandbox</string>
+    <string name="sandbox_checking_container">Checking container service…</string>
+    <string name="sandbox_cli_contact_test">CLI contact test</string>
+    <string name="sandbox_new_env">New</string>
+    <string name="sandbox_background_services">Background services</string>
+    <string name="sandbox_start_service">+ Start</string>
+    <string name="sandbox_export_log">Export log</string>
+    <string name="sandbox_clear_screen">Clear</string>
+    <string name="sandbox_welcome">Welcome to AOHP Linux sandbox\nScroll up for controls; terminal output scrolls here.\n</string>
+    <string name="sandbox_command_hint">Enter command…</string>
+    <string name="sandbox_send">Send</string>
+    <string name="sandbox_service_log">Log</string>
+    <string name="sandbox_service_stop">Stop</string>
+    <string name="sandbox_env_select">Select</string>
+    <string name="sandbox_env_reset">Reset</string>
+    <string name="sandbox_env_delete">Delete</string>
+    <string name="sandbox_start_service_dialog_title">Start background service</string>
+    <string name="sandbox_service_id_hint">Service ID (letters, digits, underscore, hyphen)</string>
+    <string name="sandbox_service_cmd_hint">Command (/bin/sh -c)</string>
+    <string name="sandbox_dialog_start">Start</string>
+    <string name="sandbox_dialog_close">Close</string>
+    <string name="sandbox_log_auto_refresh">Auto refresh</string>
+    <string name="sandbox_log_loading">Loading…</string>
+    <string name="sandbox_service_log_dialog_title">Background service log</string>
+    <string name="sandbox_container_connected">✓ Container service connected</string>
+    <string name="sandbox_container_unavailable">✗ Container unavailable (aohp_container not registered)</string>
+    <string name="sandbox_toast_no_terminal_export">Nothing to export in terminal</string>
+    <string name="sandbox_toast_export_dir_failed">Cannot create export directory</string>
+    <string name="sandbox_export_adb_hint">adb pull %1$s or adb pull %2$s/</string>
+    <string name="sandbox_toast_exported">Exported\n%1$s\n%2$s</string>
+    <string name="sandbox_toast_export_failed">Export failed: %1$s</string>
+    <string name="sandbox_toast_select_env_first">Select or create an environment first</string>
+    <string name="sandbox_toast_select_env">Select an environment first</string>
+    <string name="sandbox_toast_container_unavailable">Container service unavailable</string>
+    <string name="sandbox_toast_id_cmd_required">id and command cannot be empty</string>
+    <string name="sandbox_reset_env_title">Reset environment</string>
+    <string name="sandbox_reset_env_message">Reset %1$s?\nAll installed packages and file changes will be lost.</string>
+    <string name="sandbox_delete_env_title">Delete environment</string>
+    <string name="sandbox_delete_env_message">Delete %1$s?\nThis cannot be undone.</string>
+    <string name="sandbox_contact_test_title">CLI contact test</string>
+    <string name="sandbox_select_vd_title">Select virtual display to test</string>
+    <string name="sandbox_start_test">Start test</string>
+    <string name="sandbox_contact_no_vd_message">No AOHP virtual display found.\nCreate one with aohp display create or on the Virtual Display tab.</string>
+    <string name="terminal_prefix_system">[system]</string>
+    <string name="terminal_prefix_error">[error]</string>
+    <string name="terminal_prefix_warn">[warn]</string>
+    <string name="terminal_title_format">Terminal — %1$s</string>
+    <string name="terminal_title_default">Terminal</string>
+    <string name="terminal_stop_service">[system] Stopping service %1$s …\n</string>
+    <string name="terminal_service_stopped">[system] Service stopped.\n</string>
+    <string name="terminal_stop_failed">[error] Failed to stop service.\n</string>
+    <string name="terminal_creating_env">[system] Creating new environment…\n</string>
+    <string name="terminal_env_created">[system] Environment %1$s created.\n</string>
+    <string name="terminal_create_failed">[error] Create failed: %1$s\n</string>
+    <string name="terminal_contact_test_help">Usage: contact-test [--display=&lt;id&gt;]\n  Runs the contacts test on an AOHP virtual display; screenshots go to\n  /sdcard/Pictures/AOHPVirtualDisplay/.\n  Without arguments, lists available display IDs.\n</string>
+    <string name="terminal_start_service">[system] startService %1$s …\n</string>
+    <string name="terminal_pid">[system] pid=%1$d\n</string>
+    <string name="terminal_no_sandbox_creating">[system] No sandbox; creating %1$s …\n</string>
+    <string name="terminal_sandbox_create_failed">[error] Failed to create %1$s: %2$s\n</string>
+    <string name="terminal_sandbox_created">[system] Sandbox %1$s created.\n</string>
+    <string name="terminal_start_service_pid">[system] startService %1$s pid=%2$d\n</string>
+    <string name="terminal_start_service_failed">[error] startService failed (pid=%1$d)\n</string>
+    <string name="terminal_resetting_env">[system] Resetting %1$s …\n</string>
+    <string name="terminal_env_reset">[system] %1$s reset.\n</string>
+    <string name="terminal_reset_failed">[error] Reset failed: %1$s\n</string>
+    <string name="terminal_deleting_env">[system] Deleting %1$s …\n</string>
+    <string name="terminal_env_deleted">[system] %1$s deleted.\n</string>
+    <string name="terminal_delete_failed">[error] Delete failed: %1$s\n</string>
+    <string name="terminal_parse_display_failed">[error] Cannot parse display id: %1$s\n</string>
+    <string name="terminal_no_virtual_display">[error] No AOHP virtual display (create in-app or from system snapshot with display≠0). Use aohp display create or the Virtual Display tab.\n</string>
+    <string name="terminal_available_vd_ids">Available AOHP virtual display IDs: %1$s\n</string>
+    <string name="terminal_contact_test_usage">Usage: contact-test --display=&lt;id&gt;\n</string>
+    <string name="terminal_vd_id_warning">[warn] Enumerated display IDs=%1$s; display %2$d not in list — continuing (may not exist or not in snapshot yet).\n</string>
+    <string name="terminal_contact_test_busy">[error] Previous contact test still running; please wait.\n</string>
+    <string name="terminal_no_contacts_package">[error] No contacts/dialer/settings package found.\n</string>
+    <string name="terminal_phone_input_failed">[error] Phone field input failed: %1$s\n</string>
+    <string name="terminal_contact_test_exception">[error] Test failed: %1$s\n</string>
+    <string name="terminal_auto_select_sandbox">[system] Auto-selected sandbox: %1$s\n</string>
+    <string name="terminal_select_sandbox_first">[error] Create or select a sandbox in the environment list first.\n</string>
+    <string name="terminal_cli_sandbox"># sandbox: %1$s</string>
+    <string name="terminal_cli_shot_dir"># screenshot dir: %1$s</string>
+    <string name="terminal_cli_ui_tree_dir"># UI tree dir: %1$s</string>
+    <string name="terminal_cli_selected_pkg"># package: %1$s</string>
+    <string name="terminal_cli_display_size"># display size: %1$dx%2$d</string>
+    <string name="terminal_cli_focus_tab"># focus: TAB×%1$d to reach Phone field</string>
+    <string name="terminal_cli_tap_save"># finish: tap Save</string>
+    <string name="terminal_cli_test_done"># ✅ Done — %1$d screenshot(s) / %2$d UI tree file(s) saved</string>
+    <string name="terminal_shot_failed">[err] shot.full failed: %1$s\n</string>
+    <string name="terminal_ui_tree_write_failed">[err] ui.tree write failed: %1$s\n</string>
+    <string name="terminal_ui_tree_failed">[err] ui.tree failed: %1$s\n</string>
+
+    <!-- UDA -->
+    <string name="uda_preview">UDA Preview</string>
+    <string name="uda_custom_app">Custom App</string>
+    <string name="uda_preview_title">Preview · %1$s</string>
+    <string name="uda_llm_config">LLM configuration</string>
+    <string name="uda_llm_config_hint">Enter API Key and other settings</string>
+    <string name="uda_save_config">Save configuration</string>
+    <string name="uda_generate_section">Generate custom app</string>
+    <string name="uda_app_name_hint">App name</string>
+    <string name="uda_idea_hint">Intent description (idea)</string>
+    <string name="uda_start_generate">Start generation</string>
+    <string name="uda_open">Open</string>
+    <string name="uda_history_jobs">History</string>
+    <string name="uda_no_jobs">No generation history yet</string>
+    <string name="uda_job_add_desktop">Add to home screen</string>
+    <string name="uda_job_remove_desktop">Remove from home</string>
+    <string name="uda_job_pin_desktop">Pin to home</string>
+    <string name="uda_job_delete">Delete</string>
+    <string name="uda_tag_pinned"> · Pinned</string>
+    <string name="uda_tag_installed"> · Installed</string>
+    <string name="uda_tag_demo"> · Demo</string>
+    <string name="uda_config_saved">Configuration saved</string>
+    <string name="uda_save_failed">Save failed: %1$s</string>
+    <string name="uda_fill_idea">Enter an intent description</string>
+    <string name="uda_save_llm_first">Save LLM configuration first</string>
+    <string name="uda_starting">Starting…</string>
+    <string name="uda_start_failed">Start failed</string>
+    <string name="uda_status_format">Status: %1$s%2$s</string>
+    <string name="uda_stage_suffix"> · Stage: %1$s</string>
+    <string name="uda_generation_done">Generation complete — you can open the app</string>
+    <string name="uda_generation_failed">Generation failed</string>
+    <string name="uda_pin_requested">Pin to home requested</string>
+    <string name="uda_pin_failed">Pin failed</string>
+    <string name="uda_unpin_failed">Could not remove from home — try again</string>
+    <string name="uda_unpin_demo_hidden">Built-in demo icon hidden from launcher</string>
+    <string name="uda_unpin_shortcut_removed">Shortcut removed from home</string>
+    <string name="uda_demo_cannot_delete">Built-in demo apps cannot be deleted</string>
+    <string name="uda_delete_job_title">Delete task</string>
+    <string name="uda_delete_job_message">Delete %1$s and its generated files?</string>
+    <string name="uda_app_not_ready">App not ready yet</string>
+    <string name="uda_app_not_generated">App generation not finished</string>
+    <string name="uda_demo_not_ready">%1$s is not ready — try again later</string>
+    <string name="uda_preview_start_failed">Failed to start preview — try again</string>
+    <string name="uda_shortcut_disabled_reason">Removed from home screen</string>
+    <string name="uda_notification_channel">User-defined app generation</string>
+    <string name="uda_notification_generating">Generating custom app…</string>
+    <string name="uda_notification_complete">App generation complete</string>
+    <string name="uda_notification_finished">App generation finished</string>
+
+    <!-- File bridge -->
+    <string name="filebridge_status_unchecked">Sandbox: not checked</string>
+    <string name="filebridge_status_format">Sandbox: %1$s</string>
+    <string name="filebridge_status_none">Sandbox: no container</string>
+    <string name="filebridge_refresh_sandbox">Refresh sandbox status</string>
+    <string name="filebridge_run_tap_demo">Run tap-node -F save test</string>
+    <string name="filebridge_open_folder">Open containing folder</string>
+    <string name="filebridge_share_last">Share last path</string>
+    <string name="filebridge_title">File Bridge</string>
+    <string name="filebridge_recent_scan">Recent image scan</string>
+    <string name="filebridge_log_test_image_saved">Test image saved: %1$s</string>
+    <string name="filebridge_log_save_failed">Failed to save test image: %1$s</string>
+    <string name="filebridge_log_node_not_found">Test image node not found in ui.tree; ensure File Bridge is in the foreground on the target display.</string>
+    <string name="filebridge_log_no_sandbox_or_path">No sandbox available or no saved path from last run.</string>
+    <string name="filebridge_log_auto_select_sandbox">Auto-selected sandbox: %1$s</string>
+    <string name="filebridge_log_select_sandbox_first">Create or select an environment on the Linux Sandbox tab first.</string>
+    <string name="filebridge_log_path_detected">Detected path: %1$s</string>
+    <string name="filebridge_log_write_verify">Write verify: exists=%1$b, size=%2$d, realPath=%3$s</string>
+
+    <!-- Agent execution overlay -->
+    <string name="overlay_title">AOHP Agent</string>
+    <string name="overlay_task_label">Task</string>
+    <string name="overlay_state_idle">Idle</string>
+    <string name="overlay_state_task">Ready</string>
+    <string name="overlay_state_thinking">Thinking</string>
+    <string name="overlay_state_tool">Executing</string>
+    <string name="overlay_state_done">Done</string>
+    <string name="overlay_state_error">Error</string>
+    <string name="overlay_event_reading_skill">Reading skill: %1$s</string>
+    <string name="overlay_event_skill_loaded">Skill loaded: %1$s</string>
+</resources>

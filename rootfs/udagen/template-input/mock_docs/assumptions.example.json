@@ -1,0 +1,20 @@
+{
+  "personas": [
+    {
+      "id": "default",
+      "role": "End user",
+      "intent": "Replace with the primary user goal for this app."
+    }
+  ],
+  "layout_rules": {
+    "portrait": "Single-column mobile layout with primary action at bottom.",
+    "landscape": "Use split view when two panels add value."
+  },
+  "actions": [
+    {
+      "trigger": "submit_search",
+      "result": "GET /search?q=...",
+      "ui_effect": "Navigate to results view"
+    }
+  ]
+}

@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Base application theme. -->
+    <style name="Theme.AohpAgentDriver" parent="Theme.Material3.DayNight.NoActionBar">
+        <!-- Primary brand color. -->
+        <item name="colorPrimary">@color/md_theme_light_primary</item>
+        <item name="colorOnPrimary">@color/md_theme_light_onPrimary</item>
+        <item name="colorPrimaryContainer">@color/md_theme_light_primaryContainer</item>
+        <item name="colorOnPrimaryContainer">@color/md_theme_light_onPrimaryContainer</item>
+        
+        <!-- Secondary brand color. -->
+        <item name="colorSecondary">@color/md_theme_light_secondary</item>
+        <item name="colorOnSecondary">@color/md_theme_light_onSecondary</item>
+        <item name="colorSecondaryContainer">@color/md_theme_light_secondaryContainer</item>
+        <item name="colorOnSecondaryContainer">@color/md_theme_light_onSecondaryContainer</item>
+        
+        <!-- Status bar color. -->
+        <item name="android:statusBarColor">?attr/colorPrimaryContainer</item>
+    </style>
+
+    <!-- UDA 运行时：全屏 WebView，无 ActionBar / 工具栏 -->
+    <style name="Theme.AohpAgentDriver.UdaFullscreen" parent="Theme.AohpAgentDriver">
+        <item name="android:windowFullscreen">false</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:navigationBarColor">@android:color/transparent</item>
+        <item name="android:windowLayoutInDisplayCutoutMode">shortEdges</item>
+    </style>
+
+    <!-- 深色日志条上的复选框：填充与对号分层着色，勿用单一 buttonTint 覆盖整图 -->
+    <style name="ThemeOverlay.Aohp.ServiceLogCheckbox" parent="">
+        <item name="colorPrimary">#89B4FA</item>
+        <item name="colorOnPrimary">#11111B</item>
+    </style>
+
+    <!-- 事件流测试页：720p 等窄屏上尽量压低按钮高度，把纵向空间留给日志区 -->
+    <style name="Widget.AohpAgentDriver.Button.EventStreamCompact" parent="Widget.Material3.Button">
+        <item name="android:textSize">10sp</item>
+        <item name="android:minHeight">32dp</item>
+        <item name="android:minWidth">0dp</item>
+        <item name="android:paddingLeft">6dp</item>
+        <item name="android:paddingRight">6dp</item>
+        <item name="android:insetTop">0dp</item>
+        <item name="android:insetBottom">0dp</item>
+    </style>
+</resources>

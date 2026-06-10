@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/overlay_root"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:clickable="false"
+    android:focusable="false"
+    android:importantForAccessibility="noHideDescendants">
+
+    <org.aohp.agentdriver.ui.widget.CoolBreathingView
+        android:id="@+id/view_border_light"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:clickable="false"
+        android:focusable="false"
+        android:importantForAccessibility="no"
+        android:visibility="gone" />
+
+    <include
+        android:id="@+id/overlay_panel_include"
+        layout="@layout/layout_agent_overlay_panel_content"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/overlay_panel_height"
+        android:layout_gravity="bottom|center_horizontal"
+        android:layout_marginStart="@dimen/overlay_panel_margin_horizontal"
+        android:layout_marginEnd="@dimen/overlay_panel_margin_horizontal"
+        android:layout_marginBottom="@dimen/overlay_panel_margin_bottom"
+        android:clickable="false"
+        android:focusable="false" />
+</FrameLayout>

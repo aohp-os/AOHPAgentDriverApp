@@ -1,0 +1,398 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_DATA_SYNC" />
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+    <uses-permission android:name="android.permission.READ_CONTACTS" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
+    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
+    <uses-permission android:name="android.permission.USE_CREDENTIALS" />
+<!--    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />-->
+    <uses-permission android:name="android.permission.READ_SYNC_SETTINGS" />
+    <uses-permission android:name="android.permission.WRITE_SYNC_SETTINGS" />
+    <uses-permission android:name="android.permission.AUTHENTICATE_ACCOUNTS" />
+    <uses-permission android:name="android.permission.MANAGE_ACCOUNTS" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    <uses-permission android:name="android.permission.BIND_ACCESSIBILITY_SERVICE"
+        tools:ignore="ProtectedPermissions" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.PROCESS_OUTGOING_CALLS"/>
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE"/>
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+    <uses-permission android:name="android.permission.BLUETOOTH" />
+    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
+    <uses-permission android:name="com.google.android.gms.permission.ACTIVITY_RECOGNITION" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_CALENDAR" />
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.READ_SMS" />
+    <uses-permission android:name="android.permission.RECEIVE_SMS" />
+    <uses-permission android:name="android.permission.READ_CALL_LOG" />
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+
+    <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION" />
+
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_MEDIA_PROJECTION" />
+    <uses-permission android:name="android.permission.MANAGE_AOHP_VIRTUAL_DISPLAY"
+        tools:ignore="ProtectedPermissions" />
+    <uses-permission android:name="android.permission.MANAGE_AOHP_ADS"
+        tools:ignore="ProtectedPermissions" />
+    <!-- Quick Search / 自动化：前台注入按键（与 platform 签名一致时授予） -->
+    <uses-permission android:name="android.permission.INJECT_EVENTS"
+        tools:ignore="ProtectedPermissions" />
+    <uses-permission android:name="android.permission.KILL_BACKGROUND_PROCESSES" />
+
+    <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM"
+        tools:ignore="ProtectedPermissions" />
+
+    <!-- Privileged system image: allow enabling our accessibility service without manual Settings UI -->
+    <uses-permission android:name="android.permission.WRITE_SECURE_SETTINGS"
+        tools:ignore="ProtectedPermissions" />
+
+    <application
+        android:name=".MyApp"
+        android:allowBackup="true"
+        android:dataExtractionRules="@xml/data_extraction_rules"
+        android:fullBackupContent="@xml/backup_rules"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/Theme.AohpAgentDriver"
+        tools:targetApi="31"
+        android:networkSecurityConfig="@xml/network_security_config"
+        android:usesCleartextTraffic="true">
+        <activity
+            android:label="@string/app_name"
+            android:exported='true'
+            android:name="org.aohp.agentdriver.MainActivity"
+            android:windowSoftInputMode="adjustResize">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <activity
+            android:name="org.aohp.agentdriver.ui.filebridge.FileBridgeActivity"
+            android:exported="true"
+            android:label="File Bridge"
+            android:theme="@style/Theme.AohpAgentDriver" />
+
+        <activity
+            android:name="org.aohp.agentdriver.ui.filebridge.FileBridgeShareActivity"
+            android:excludeFromRecents="true"
+            android:exported="false"
+            android:label="File Bridge Share"
+            android:theme="@style/Theme.AohpAgentDriver" />
+
+        <activity
+            android:name="org.aohp.agentdriver.ui.uda.UdaPreviewActivity"
+            android:exported="false"
+            android:launchMode="singleTop"
+            android:label="@string/uda_preview"
+            android:theme="@style/Theme.AohpAgentDriver.UdaFullscreen" />
+
+        <activity
+            android:name="org.aohp.agentdriver.ui.uda.UdaDemoLauncherActivity"
+            android:excludeFromRecents="true"
+            android:exported="false"
+            android:noHistory="true"
+            android:taskAffinity="org.aohp.agentdriver.uda"
+            android:theme="@style/Theme.AohpAgentDriver" />
+
+        <activity-alias
+            android:name="org.aohp.agentdriver.ui.uda.UdaDemoGiftPickerLauncher"
+            android:enabled="false"
+            android:excludeFromRecents="true"
+            android:exported="true"
+            android:icon="@drawable/uda_ic_demo_gift_fg"
+            android:label="Gift Picker"
+            android:noHistory="true"
+            android:roundIcon="@drawable/uda_ic_demo_gift_fg"
+            android:targetActivity="org.aohp.agentdriver.ui.uda.UdaDemoLauncherActivity"
+            android:taskAffinity="org.aohp.agentdriver.uda"
+            android:theme="@style/Theme.AohpAgentDriver">
+            <meta-data
+                android:name="org.aohp.agentdriver.UDA_DEMO_JOB_ID"
+                android:value="demo-gift-picker" />
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity-alias>
+
+        <activity-alias
+            android:name="org.aohp.agentdriver.ui.uda.UdaDemoPythonLearningLauncher"
+            android:enabled="false"
+            android:excludeFromRecents="true"
+            android:exported="true"
+            android:icon="@drawable/uda_ic_demo_python_fg"
+            android:label="Python Learning Assistant"
+            android:noHistory="true"
+            android:roundIcon="@drawable/uda_ic_demo_python_fg"
+            android:targetActivity="org.aohp.agentdriver.ui.uda.UdaDemoLauncherActivity"
+            android:taskAffinity="org.aohp.agentdriver.uda"
+            android:theme="@style/Theme.AohpAgentDriver">
+            <meta-data
+                android:name="org.aohp.agentdriver.UDA_DEMO_JOB_ID"
+                android:value="demo-python-learning" />
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity-alias>
+
+        <activity-alias
+            android:name="org.aohp.agentdriver.ui.uda.UdaDemoShanghaiTripLauncher"
+            android:enabled="false"
+            android:excludeFromRecents="true"
+            android:exported="true"
+            android:icon="@drawable/uda_ic_demo_shanghai_fg"
+            android:label="Shanghai Trip Assistant"
+            android:noHistory="true"
+            android:roundIcon="@drawable/uda_ic_demo_shanghai_fg"
+            android:targetActivity="org.aohp.agentdriver.ui.uda.UdaDemoLauncherActivity"
+            android:taskAffinity="org.aohp.agentdriver.uda"
+            android:theme="@style/Theme.AohpAgentDriver">
+            <meta-data
+                android:name="org.aohp.agentdriver.UDA_DEMO_JOB_ID"
+                android:value="demo-shanghai-trip" />
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity-alias>
+
+        <activity-alias
+            android:name="org.aohp.agentdriver.ui.uda.UdaDemoCrossPlatformTripPlannerLauncher"
+            android:enabled="false"
+            android:excludeFromRecents="true"
+            android:exported="true"
+            android:icon="@drawable/uda_ic_demo_generic_fg"
+            android:label="Cross Platform Trip Planner"
+            android:noHistory="true"
+            android:roundIcon="@drawable/uda_ic_demo_generic_fg"
+            android:targetActivity="org.aohp.agentdriver.ui.uda.UdaDemoLauncherActivity"
+            android:taskAffinity="org.aohp.agentdriver.uda"
+            android:theme="@style/Theme.AohpAgentDriver">
+            <meta-data
+                android:name="org.aohp.agentdriver.UDA_DEMO_JOB_ID"
+                android:value="demo-cross-platform-trip-planner" />
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity-alias>
+
+        <activity-alias
+            android:name="org.aohp.agentdriver.ui.uda.UdaDemoDinnerDecisionDeskLauncher"
+            android:enabled="false"
+            android:excludeFromRecents="true"
+            android:exported="true"
+            android:icon="@drawable/uda_ic_demo_generic_fg"
+            android:label="Dinner Decision Desk"
+            android:noHistory="true"
+            android:roundIcon="@drawable/uda_ic_demo_generic_fg"
+            android:targetActivity="org.aohp.agentdriver.ui.uda.UdaDemoLauncherActivity"
+            android:taskAffinity="org.aohp.agentdriver.uda"
+            android:theme="@style/Theme.AohpAgentDriver">
+            <meta-data
+                android:name="org.aohp.agentdriver.UDA_DEMO_JOB_ID"
+                android:value="demo-dinner-decision-desk" />
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity-alias>
+
+        <activity-alias
+            android:name="org.aohp.agentdriver.ui.uda.UdaDemoExpenseSummaryLauncher"
+            android:enabled="false"
+            android:excludeFromRecents="true"
+            android:exported="true"
+            android:icon="@drawable/uda_ic_demo_generic_fg"
+            android:label="Expense Summary"
+            android:noHistory="true"
+            android:roundIcon="@drawable/uda_ic_demo_generic_fg"
+            android:targetActivity="org.aohp.agentdriver.ui.uda.UdaDemoLauncherActivity"
+            android:taskAffinity="org.aohp.agentdriver.uda"
+            android:theme="@style/Theme.AohpAgentDriver">
+            <meta-data
+                android:name="org.aohp.agentdriver.UDA_DEMO_JOB_ID"
+                android:value="demo-expense-summary" />
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity-alias>
+
+        <activity-alias
+            android:name="org.aohp.agentdriver.ui.uda.UdaDemoHealthHubLauncher"
+            android:enabled="false"
+            android:excludeFromRecents="true"
+            android:exported="true"
+            android:icon="@drawable/uda_ic_demo_generic_fg"
+            android:label="Health Hub"
+            android:noHistory="true"
+            android:roundIcon="@drawable/uda_ic_demo_generic_fg"
+            android:targetActivity="org.aohp.agentdriver.ui.uda.UdaDemoLauncherActivity"
+            android:taskAffinity="org.aohp.agentdriver.uda"
+            android:theme="@style/Theme.AohpAgentDriver">
+            <meta-data
+                android:name="org.aohp.agentdriver.UDA_DEMO_JOB_ID"
+                android:value="demo-health-hub" />
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity-alias>
+
+        <activity-alias
+            android:name="org.aohp.agentdriver.ui.uda.UdaDemoMorningBriefingLauncher"
+            android:enabled="false"
+            android:excludeFromRecents="true"
+            android:exported="true"
+            android:icon="@drawable/uda_ic_demo_generic_fg"
+            android:label="Morning Briefing"
+            android:noHistory="true"
+            android:roundIcon="@drawable/uda_ic_demo_generic_fg"
+            android:targetActivity="org.aohp.agentdriver.ui.uda.UdaDemoLauncherActivity"
+            android:taskAffinity="org.aohp.agentdriver.uda"
+            android:theme="@style/Theme.AohpAgentDriver">
+            <meta-data
+                android:name="org.aohp.agentdriver.UDA_DEMO_JOB_ID"
+                android:value="demo-morning-briefing" />
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity-alias>
+
+        <activity-alias
+            android:name="org.aohp.agentdriver.ui.uda.UdaDemoMovingChecklistLauncher"
+            android:enabled="false"
+            android:excludeFromRecents="true"
+            android:exported="true"
+            android:icon="@drawable/uda_ic_demo_generic_fg"
+            android:label="Moving Checklist"
+            android:noHistory="true"
+            android:roundIcon="@drawable/uda_ic_demo_generic_fg"
+            android:targetActivity="org.aohp.agentdriver.ui.uda.UdaDemoLauncherActivity"
+            android:taskAffinity="org.aohp.agentdriver.uda"
+            android:theme="@style/Theme.AohpAgentDriver">
+            <meta-data
+                android:name="org.aohp.agentdriver.UDA_DEMO_JOB_ID"
+                android:value="demo-moving-checklist" />
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity-alias>
+
+        <activity-alias
+            android:name="org.aohp.agentdriver.ui.uda.UdaDemoRentalHousingFinderLauncher"
+            android:enabled="false"
+            android:excludeFromRecents="true"
+            android:exported="true"
+            android:icon="@drawable/uda_ic_demo_generic_fg"
+            android:label="Rental Housing Finder"
+            android:noHistory="true"
+            android:roundIcon="@drawable/uda_ic_demo_generic_fg"
+            android:targetActivity="org.aohp.agentdriver.ui.uda.UdaDemoLauncherActivity"
+            android:taskAffinity="org.aohp.agentdriver.uda"
+            android:theme="@style/Theme.AohpAgentDriver">
+            <meta-data
+                android:name="org.aohp.agentdriver.UDA_DEMO_JOB_ID"
+                android:value="demo-rental-housing-finder" />
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity-alias>
+
+        <activity
+            android:name="org.aohp.agentdriver.ui.uda.UdaAppActivity"
+            android:documentLaunchMode="intoExisting"
+            android:exported="true"
+            android:taskAffinity="org.aohp.agentdriver.uda"
+            android:label="@string/uda_custom_app"
+            android:theme="@style/Theme.AohpAgentDriver.UdaFullscreen">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <data
+                    android:host="app"
+                    android:scheme="aohp-uda" />
+            </intent-filter>
+        </activity>
+
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="org.aohp.agentdriver.fileprovider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_bridge_paths" />
+        </provider>
+
+        <service
+            android:name=".executor.ws.AohpJsonRpcService"
+            android:foregroundServiceType="dataSync"
+            tools:ignore="ForegroundServicePermission" />
+
+        <service android:name=".executor.MyAccessibilityService"
+            android:enabled="true"
+            android:label="@string/accessibility_service_label"
+            android:description="@string/accessibility_service_description"
+            android:permission="android.permission.BIND_ACCESSIBILITY_SERVICE"
+            android:exported="true">
+            <meta-data android:name="android.accessibilityservice"
+                android:resource="@xml/accessibility_service_config" />
+            <intent-filter>
+                <action android:name="android.accessibilityservice.AccessibilityService" />
+            </intent-filter>
+        </service>
+
+        <service
+            android:name=".executor.RecordService"
+            android:enabled="true"
+            android:exported="true"
+            android:foregroundServiceType="mediaProjection" />
+
+        <service
+            android:name=".uda.UdaGenerationService"
+            android:exported="false"
+            android:foregroundServiceType="dataSync"
+            tools:ignore="ForegroundServicePermission" />
+
+        <receiver
+            android:name=".overlay.TapHighlightReceiver"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="org.aohp.agentdriver.action.TAP_HIGHLIGHT_SHOW" />
+                <action android:name="org.aohp.agentdriver.action.TAP_HIGHLIGHT_HIDE" />
+            </intent-filter>
+        </receiver>
+
+    </application>
+
+    <queries>
+        <!-- 声明需要访问的应用类型 -->
+        <!-- 可以启动的应用 -->
+        <intent>
+            <action android:name="android.intent.action.MAIN" />
+            <category android:name="android.intent.category.LAUNCHER" />
+        </intent>
+    </queries>
+
+</manifest>

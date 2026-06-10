@@ -1,0 +1,251 @@
+<resources>
+    <string name="app_name">AOHP Agent Driver</string>
+
+    <string name="accessibility_service_description">AOHP Agent Driver 无障碍服务</string>
+    <string name="accessibility_service_label">AOHP Agent Driver</string>
+
+    <!-- Navigation -->
+    <string name="nav_linux_sandbox">Linux 沙盒</string>
+    <string name="nav_virtual_display">虚拟屏幕</string>
+    <string name="nav_uda_apps">个性化应用</string>
+    <string name="menu_settings">设置</string>
+
+    <!-- Main / quick launch -->
+    <string name="quick_launch_title">🚀 快捷启动任务</string>
+    <string name="quick_launch_hint">请输入任务描述…</string>
+    <string name="quick_launch_start">启动执行</string>
+    <string name="execution_status_preparing">状态：准备中…</string>
+    <string name="execution_status_format">状态：%1$s</string>
+    <string name="toast_enter_task_description">请输入任务描述</string>
+    <string name="settings_not_implemented">设置功能待实现</string>
+
+    <!-- Permissions -->
+    <string name="permission_request_title">权限请求</string>
+    <string name="permission_request_intro">为了正常使用 %1$s，需要以下权限：\n\n</string>
+    <string name="permission_request_footer">\n点击确定将依次引导您完成授权。</string>
+    <string name="action_ok">确定</string>
+    <string name="action_cancel">取消</string>
+    <string name="permission_overlay">在其他应用上层显示（悬浮窗）</string>
+    <string name="permission_accessibility">无障碍服务权限</string>
+    <string name="permission_screen_capture">屏幕录制权限</string>
+    <string name="permission_notification">通知权限</string>
+    <string name="permission_storage">存储权限</string>
+    <string name="permission_unknown">未知权限</string>
+    <string name="permission_restore_title">权限恢复</string>
+    <string name="permission_restore_message">%1$s已丢失，请重新授权。</string>
+    <string name="permission_restore_action">去授权</string>
+    <string name="permission_restored_toast">%1$s已恢复</string>
+
+    <!-- Quick execution log -->
+    <string name="exec_status_preparing">准备中…</string>
+    <string name="exec_log_task">📋 任务：%1$s</string>
+    <string name="exec_status_starting_service">启动服务…</string>
+    <string name="exec_log_ws_start">🚀 启动 WebSocket 服务…</string>
+    <string name="exec_log_ws_started">✅ WebSocket 服务已启动</string>
+    <string name="exec_log_ws_failed">❌ 启动 WebSocket 服务失败: %1$s</string>
+    <string name="exec_status_start_failed">启动失败</string>
+    <string name="exec_log_create_vd">📺 通过 AOHP 创建虚拟屏…</string>
+    <string name="exec_log_aohp_unavailable">❌ AOHP 虚拟显示服务不可用</string>
+    <string name="exec_status_aohp_unavailable">AOHP 不可用</string>
+    <string name="exec_log_missing_vd_permission">❌ 缺少 MANAGE_AOHP_VIRTUAL_DISPLAY（需 platform 签名 priv-app）</string>
+    <string name="exec_status_missing_aohp_perm">缺少 AOHP 权限</string>
+    <string name="exec_log_create_vd_failed">❌ AOHP 创建虚拟屏失败: %1$s</string>
+    <string name="exec_status_vd_create_failed">虚拟屏创建失败</string>
+    <string name="exec_log_vd_created">✅ AOHP 虚拟屏 id=%1$d</string>
+    <string name="exec_log_commands_routed">🎯 命令将路由到该逻辑屏</string>
+    <string name="exec_log_parse_display_failed">❌ 解析 displayId 失败: %1$s</string>
+    <string name="exec_log_nl_removed">ℹ️ 自然语言内嵌执行已移除。请使用「Linux 沙盒」内 aohp CLI，或各页签中的 JSON-RPC / 技能测试。</string>
+    <string name="exec_status_use_cli">请使用 aohp CLI</string>
+
+    <!-- Virtual display test -->
+    <string name="vd_test_title">🖥️ 虚拟屏幕测试</string>
+    <string name="vd_aohp_service_label">AOHP 服务：</string>
+    <string name="vd_status_checking">检测中…</string>
+    <string name="vd_section_create">虚拟屏 (AOHP createVirtualDisplay)</string>
+    <string name="vd_create">创建虚拟屏</string>
+    <string name="vd_destroy_latest">销毁最近</string>
+    <string name="vd_created_ids_label">已创建的 displayId：</string>
+    <string name="vd_none">(无)</string>
+    <string name="vd_fullscreen_snapshot">全屏任务快照</string>
+    <string name="vd_clear_log">清空日志</string>
+    <string name="vd_toast_service_unavailable">AOHP 虚拟显示服务不可用</string>
+    <string name="vd_toast_need_manage_perm">需要 MANAGE_AOHP_VIRTUAL_DISPLAY 权限</string>
+    <string name="vd_toast_no_vd_records">无 AOHP VD 记录</string>
+    <string name="vd_snapshot_failed">获取快照失败</string>
+    <string name="vd_parse_snapshot_failed">解析快照失败: %1$s</string>
+    <string name="vd_snapshot_dialog_title">全屏任务快照 (%1$d 个屏幕)</string>
+    <string name="vd_status_available">可用 ✓</string>
+    <string name="vd_status_no_permission">无权限 ✗</string>
+    <string name="vd_status_unavailable">不可用 ✗</string>
+    <string name="vd_log_service_ok">AohpVirtualDisplayService 可用（已注册且具备 MANAGE_AOHP_VIRTUAL_DISPLAY）</string>
+    <string name="vd_log_missing_perm">系统已注册 aohp_virtual_display，但当前应用缺少 MANAGE_AOHP_VIRTUAL_DISPLAY。</string>
+    <string name="vd_log_use_platform_build">请使用 lunch 对应 AOHP 目标后 m 编译的 platform 签名 priv-app（勿仅用 adb install 调试 APK）。</string>
+    <string name="vd_log_binder_missing">未检测到 aohp_virtual_display（Binder 未注册）。</string>
+    <string name="vd_log_flash_aohp_image">需刷入带 AOHP 补丁的系统镜像，仅安装 APK 无法提供该服务。</string>
+    <string name="vd_log_sepolicy_hint">若已刷 AOHP 仍失败：确认 sepolicy 允许查找该服务；ro.build.fingerprint=%1$s</string>
+    <string name="vd_log_cannot_create_no_service">无法创建：未检测到 aohp_virtual_display</string>
+    <string name="vd_log_cannot_create_no_perm">无法创建：缺少 MANAGE_AOHP_VIRTUAL_DISPLAY</string>
+    <string name="snapshot_task_visible">可见</string>
+    <string name="snapshot_task_hidden">不可见</string>
+    <string name="snapshot_task_line">RootTask #%1$d  ·  z=%2$d  ·  %3$s  ·  activities=%4$d</string>
+
+    <!-- Linux sandbox -->
+    <string name="sandbox_title">Linux 沙盒环境</string>
+    <string name="sandbox_checking_container">正在检查容器服务…</string>
+    <string name="sandbox_cli_contact_test">CLI 测试联系人</string>
+    <string name="sandbox_new_env">新建</string>
+    <string name="sandbox_background_services">后台服务</string>
+    <string name="sandbox_start_service">+ 启动</string>
+    <string name="sandbox_export_log">导出日志</string>
+    <string name="sandbox_clear_screen">清屏</string>
+    <string name="sandbox_welcome">欢迎使用 AOHP Linux 沙盒环境\n向上滑动可查看上方控件；终端输出在此区域内滚动。\n</string>
+    <string name="sandbox_command_hint">输入命令…</string>
+    <string name="sandbox_send">发送</string>
+    <string name="sandbox_service_log">日志</string>
+    <string name="sandbox_service_stop">停止</string>
+    <string name="sandbox_env_select">选择</string>
+    <string name="sandbox_env_reset">重置</string>
+    <string name="sandbox_env_delete">删除</string>
+    <string name="sandbox_start_service_dialog_title">启动后台服务</string>
+    <string name="sandbox_service_id_hint">服务 ID（字母数字下划线短横线）</string>
+    <string name="sandbox_service_cmd_hint">命令（/bin/sh -c）</string>
+    <string name="sandbox_dialog_start">启动</string>
+    <string name="sandbox_dialog_close">关闭</string>
+    <string name="sandbox_log_auto_refresh">自动刷新</string>
+    <string name="sandbox_log_loading">加载中…</string>
+    <string name="sandbox_service_log_dialog_title">后台服务日志</string>
+    <string name="sandbox_container_connected">✓ 容器服务已连接</string>
+    <string name="sandbox_container_unavailable">✗ 容器服务不可用 (aohp_container 未注册)</string>
+    <string name="sandbox_toast_no_terminal_export">终端无内容可导出</string>
+    <string name="sandbox_toast_export_dir_failed">无法创建导出目录</string>
+    <string name="sandbox_export_adb_hint">adb pull %1$s 或 adb pull %2$s/</string>
+    <string name="sandbox_toast_exported">已导出\n%1$s\n%2$s</string>
+    <string name="sandbox_toast_export_failed">导出失败: %1$s</string>
+    <string name="sandbox_toast_select_env_first">请先选择或创建一个环境</string>
+    <string name="sandbox_toast_select_env">请先选择环境</string>
+    <string name="sandbox_toast_container_unavailable">容器服务不可用</string>
+    <string name="sandbox_toast_id_cmd_required">id/command 不能为空</string>
+    <string name="sandbox_reset_env_title">重置环境</string>
+    <string name="sandbox_reset_env_message">确定要重置 %1$s 吗？\n所有已安装的包和文件修改将丢失。</string>
+    <string name="sandbox_delete_env_title">删除环境</string>
+    <string name="sandbox_delete_env_message">确定要删除 %1$s 吗？\n此操作不可恢复。</string>
+    <string name="sandbox_contact_test_title">CLI 测试联系人</string>
+    <string name="sandbox_select_vd_title">选择要测试的虚拟屏</string>
+    <string name="sandbox_start_test">开始测试</string>
+    <string name="sandbox_contact_no_vd_message">未检测到可用的 AOHP 虚拟屏。\n请使用 aohp display create 或到「虚拟屏幕」页创建后再试。</string>
+    <string name="terminal_prefix_system">[系统]</string>
+    <string name="terminal_prefix_error">[错误]</string>
+    <string name="terminal_prefix_warn">[警告]</string>
+    <string name="terminal_title_format">终端 — %1$s</string>
+    <string name="terminal_title_default">终端</string>
+    <string name="terminal_stop_service">[系统] 正在停止服务 %1$s …\n</string>
+    <string name="terminal_service_stopped">[系统] 已停止\n</string>
+    <string name="terminal_stop_failed">[错误] 停止失败\n</string>
+    <string name="terminal_creating_env">[系统] 正在创建新环境…\n</string>
+    <string name="terminal_env_created">[系统] 环境 %1$s 创建成功\n</string>
+    <string name="terminal_create_failed">[错误] 创建失败: %1$s\n</string>
+    <string name="terminal_contact_test_help">用法: contact-test [--display=&lt;id&gt;]\n  在已有的 AOHP 虚拟屏上运行联系人测试流程，截图保存到\n  /sdcard/Pictures/AOHPVirtualDisplay/。\n  不带参数时会列出可用屏幕 ID 并提示选择。\n</string>
+    <string name="terminal_start_service">[系统] startService %1$s …\n</string>
+    <string name="terminal_pid">[系统] pid=%1$d\n</string>
+    <string name="terminal_no_sandbox_creating">[系统] 无沙盒，正在创建 %1$s …\n</string>
+    <string name="terminal_sandbox_create_failed">[错误] 创建 %1$s 失败: %2$s\n</string>
+    <string name="terminal_sandbox_created">[系统] 沙盒 %1$s 已创建\n</string>
+    <string name="terminal_start_service_pid">[系统] startService %1$s pid=%2$d\n</string>
+    <string name="terminal_start_service_failed">[错误] startService 失败 (pid=%1$d)\n</string>
+    <string name="terminal_resetting_env">[系统] 正在重置 %1$s…\n</string>
+    <string name="terminal_env_reset">[系统] %1$s 已重置\n</string>
+    <string name="terminal_reset_failed">[错误] 重置失败: %1$s\n</string>
+    <string name="terminal_deleting_env">[系统] 正在删除 %1$s…\n</string>
+    <string name="terminal_env_deleted">[系统] %1$s 已删除\n</string>
+    <string name="terminal_delete_failed">[错误] 删除失败: %1$s\n</string>
+    <string name="terminal_parse_display_failed">[错误] 无法解析 display id: %1$s\n</string>
+    <string name="terminal_no_virtual_display">[错误] 当前没有任何 AOHP 虚拟屏（应用内创建或系统快照中 display≠0 的逻辑屏）。请先用 aohp display create 或「虚拟屏幕」页创建。\n</string>
+    <string name="terminal_available_vd_ids">可用 AOHP 虚拟屏 ID: %1$s\n</string>
+    <string name="terminal_contact_test_usage">用法: contact-test --display=&lt;id&gt;\n</string>
+    <string name="terminal_vd_id_warning">[警告] 枚举到的虚拟屏 ID=%1$s，未包含 display=%2$d，将继续尝试（可能不存在或尚未出现在快照中）。\n</string>
+    <string name="terminal_contact_test_busy">[错误] 上一次联系人测试尚未结束，请稍候。\n</string>
+    <string name="terminal_no_contacts_package">[错误] 未找到任何可用的联系人/拨号器/设置包名。\n</string>
+    <string name="terminal_phone_input_failed">[错误] 电话字段输入失败: %1$s\n</string>
+    <string name="terminal_contact_test_exception">[错误] 测试异常: %1$s\n</string>
+    <string name="terminal_auto_select_sandbox">[系统] 自动选择沙盒: %1$s\n</string>
+    <string name="terminal_select_sandbox_first">[错误] 请先到「沙盒环境」列表创建或选择一个环境。\n</string>
+    <string name="terminal_cli_sandbox"># 沙盒: %1$s</string>
+    <string name="terminal_cli_shot_dir"># 截图目录: %1$s</string>
+    <string name="terminal_cli_ui_tree_dir"># UI 树目录: %1$s</string>
+    <string name="terminal_cli_selected_pkg"># 选定包: %1$s</string>
+    <string name="terminal_cli_display_size"># 虚拟屏尺寸: %1$dx%2$d</string>
+    <string name="terminal_cli_focus_tab"># 焦点：TAB×%1$d 切换到 Phone</string>
+    <string name="terminal_cli_tap_save"># 收尾：点击保存按钮</string>
+    <string name="terminal_cli_test_done"># ✅ 测试完成，共保存 %1$d 张截图 / %2$d 份 UI 树</string>
+    <string name="terminal_shot_failed">[err] shot.full 失败: %1$s\n</string>
+    <string name="terminal_ui_tree_write_failed">[err] ui.tree 写文件失败: %1$s\n</string>
+    <string name="terminal_ui_tree_failed">[err] ui.tree 失败: %1$s\n</string>
+
+    <!-- UDA -->
+    <string name="uda_preview">UDA 预览</string>
+    <string name="uda_custom_app">个性化应用</string>
+    <string name="uda_preview_title">预览 · %1$s</string>
+    <string name="uda_llm_config">LLM 配置</string>
+    <string name="uda_llm_config_hint">请先填写 API Key 等参数</string>
+    <string name="uda_save_config">保存配置</string>
+    <string name="uda_generate_section">生成个性化应用</string>
+    <string name="uda_app_name_hint">应用名称</string>
+    <string name="uda_idea_hint">意图描述（idea）</string>
+    <string name="uda_start_generate">开始生成</string>
+    <string name="uda_open">打开</string>
+    <string name="uda_history_jobs">历史任务</string>
+    <string name="uda_no_jobs">暂无生成记录</string>
+    <string name="uda_job_add_desktop">添加到桌面</string>
+    <string name="uda_job_remove_desktop">移除桌面</string>
+    <string name="uda_job_pin_desktop">固定到桌面</string>
+    <string name="uda_job_delete">删除</string>
+    <string name="uda_tag_pinned"> · 已固定</string>
+    <string name="uda_tag_installed"> · 已安装</string>
+    <string name="uda_tag_demo"> · 示例</string>
+    <string name="uda_config_saved">配置已保存</string>
+    <string name="uda_save_failed">保存失败: %1$s</string>
+    <string name="uda_fill_idea">请填写意图描述</string>
+    <string name="uda_save_llm_first">请先保存 LLM 配置</string>
+    <string name="uda_starting">正在启动…</string>
+    <string name="uda_start_failed">启动失败</string>
+    <string name="uda_status_format">状态: %1$s%2$s</string>
+    <string name="uda_stage_suffix"> · 阶段: %1$s</string>
+    <string name="uda_generation_done">生成完成，可打开</string>
+    <string name="uda_generation_failed">生成失败</string>
+    <string name="uda_pin_requested">已请求固定到桌面</string>
+    <string name="uda_pin_failed">固定失败</string>
+    <string name="uda_unpin_failed">未能从桌面移除，请重试</string>
+    <string name="uda_unpin_demo_hidden">已从桌面隐藏内置图标</string>
+    <string name="uda_unpin_shortcut_removed">已从桌面移除快捷方式</string>
+    <string name="uda_demo_cannot_delete">内置示例应用不可删除</string>
+    <string name="uda_delete_job_title">删除任务</string>
+    <string name="uda_delete_job_message">删除 %1$s 及其生成文件？</string>
+    <string name="uda_app_not_ready">应用尚未就绪</string>
+    <string name="uda_app_not_generated">应用尚未生成完成</string>
+    <string name="uda_demo_not_ready">%1$s 尚未就绪，请稍后重试</string>
+    <string name="uda_preview_start_failed">预览服务启动失败，请重试</string>
+    <string name="uda_shortcut_disabled_reason">已从桌面移除</string>
+    <string name="uda_notification_channel">User Defined App 生成</string>
+    <string name="uda_notification_generating">正在生成个性化应用…</string>
+    <string name="uda_notification_complete">应用生成完成</string>
+    <string name="uda_notification_finished">应用生成结束</string>
+
+    <!-- File bridge -->
+    <string name="filebridge_status_unchecked">沙盒: 未检查</string>
+    <string name="filebridge_status_format">沙盒: %1$s</string>
+    <string name="filebridge_status_none">沙盒: 无可用容器</string>
+    <string name="filebridge_refresh_sandbox">刷新沙盒状态</string>
+    <string name="filebridge_run_tap_demo">运行 tap-node -F 保存测试</string>
+    <string name="filebridge_open_folder">打开所在文件夹</string>
+    <string name="filebridge_share_last">Share 上次路径</string>
+    <string name="filebridge_title">File Bridge</string>
+    <string name="filebridge_recent_scan">近期图片扫描</string>
+    <string name="filebridge_log_test_image_saved">测试图片已保存: %1$s</string>
+    <string name="filebridge_log_save_failed">保存测试图片失败: %1$s</string>
+    <string name="filebridge_log_node_not_found">未在 ui.tree 中找到测试图片节点；请确认 File Bridge 页在目标屏幕前台。</string>
+    <string name="filebridge_log_no_sandbox_or_path">没有可用沙盒或上次保存路径。</string>
+    <string name="filebridge_log_auto_select_sandbox">自动选择沙盒: %1$s</string>
+    <string name="filebridge_log_select_sandbox_first">请先到 Linux 沙盒页创建或选择一个环境。</string>
+    <string name="filebridge_log_path_detected">检测到路径: %1$s</string>
+    <string name="filebridge_log_write_verify">写入校验: exists=%1$b, size=%2$d, realPath=%3$s</string>
+</resources>

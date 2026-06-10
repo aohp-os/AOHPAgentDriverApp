@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/navigation_sandbox">
+
+    <fragment
+        android:id="@+id/navigation_sandbox"
+        android:name="org.aohp.agentdriver.ui.sandbox.LinuxSandboxFragment"
+        android:label="@string/nav_linux_sandbox" />
+
+    <fragment
+        android:id="@+id/navigation_virtual_display"
+        android:name="org.aohp.agentdriver.ui.vd.VirtualDisplayTestFragment"
+        android:label="@string/nav_virtual_display" />
+
+    <fragment
+        android:id="@+id/navigation_file_bridge"
+        android:name="org.aohp.agentdriver.ui.filebridge.FileBridgeFragment"
+        android:label="File Bridge" />
+
+    <fragment
+        android:id="@+id/navigation_uda"
+        android:name="org.aohp.agentdriver.ui.uda.UdaGeneratorFragment"
+        android:label="@string/nav_uda_apps" />
+
+</navigation>

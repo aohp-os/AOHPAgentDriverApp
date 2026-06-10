@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="overlay_panel_margin_horizontal">20dp</dimen>
+    <dimen name="overlay_panel_padding">14dp</dimen>
+    <!-- Slightly less top padding so logo / title / state sit closer to the card edge (~8px @ 720x1280 xhdpi). -->
+    <dimen name="overlay_panel_padding_top">4dp</dimen>
+    <!-- Slightly less bottom padding so the last event line sits closer to the card edge (~8px @ 720x1280 xhdpi). -->
+    <dimen name="overlay_panel_padding_bottom">8dp</dimen>
+    <!-- Fixed-height panel anchored to the lower-middle of the screen (720x1280 ≈ 360x640dp). -->
+    <dimen name="overlay_panel_height">240dp</dimen>
+    <!-- Vertical share of panel (below header) while task + events are both visible. -->
+    <item name="overlay_task_section_weight" format="float" type="dimen">0.85</item>
+    <item name="overlay_events_weight" format="float" type="dimen">0.15</item>
+    <!-- 0dp ≈ flush with screen bottom on 720x1280 xhdpi (was 10dp ≈ 20px gap). -->
+    <dimen name="overlay_panel_margin_bottom">0dp</dimen>
+    <dimen name="overlay_events_padding_bottom">0dp</dimen>
+</resources>

@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Linux sandbox: fixed terminal height so the page can scroll on small screens (e.g. 720x1280 Cuttlefish) -->
+    <dimen name="sandbox_terminal_height">200dp</dimen>
+    <dimen name="sandbox_env_list_min_height">52dp</dimen>
+</resources>

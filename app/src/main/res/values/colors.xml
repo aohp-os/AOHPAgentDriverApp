@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Light theme (Theme.AohpAgentDriver in values/themes.xml) -->
+    <color name="md_theme_light_primary">#0061A4</color>
+    <color name="md_theme_light_onPrimary">#FFFFFF</color>
+    <color name="md_theme_light_primaryContainer">#1565C0</color>
+    <color name="md_theme_light_onPrimaryContainer">#FFFFFF</color>
+    <color name="md_theme_light_secondary">#535F70</color>
+    <color name="md_theme_light_onSecondary">#FFFFFF</color>
+    <color name="md_theme_light_secondaryContainer">#D7E3F7</color>
+    <color name="md_theme_light_onSecondaryContainer">#101C2B</color>
+
+    <!-- Dark theme (values-night/themes.xml) -->
+    <color name="md_theme_dark_primary">#2196F3</color>
+    <color name="md_theme_dark_onPrimary">#FFFFFF</color>
+    <color name="md_theme_dark_primaryContainer">#1976D2</color>
+    <color name="md_theme_dark_onPrimaryContainer">#FFFFFF</color>
+    <color name="md_theme_dark_secondary">#BBC7DB</color>
+    <color name="md_theme_dark_onSecondary">#253140</color>
+    <color name="md_theme_dark_secondaryContainer">#3B4858</color>
+    <color name="md_theme_dark_onSecondaryContainer">#D7E3F7</color>
+
+    <!-- Matches AOHP Agent Driver launcher gradient edge for adaptive-icon masks. -->
+    <color name="ic_launcher_background">#2B7FFF</color>
+
+    <color name="uda_demo_gift_bg">#DB2777</color>
+    <color name="uda_demo_python_bg">#2563EB</color>
+    <color name="uda_demo_shanghai_bg">#059669</color>
+    <color name="uda_demo_generic_bg">#6366F1</color>
+
+    <color name="overlay_panel_bg">#E61A1A2E</color>
+    <color name="overlay_text_primary">#F5F5FF</color>
+    <color name="overlay_text_secondary">#B0BEC5</color>
+    <color name="overlay_text_muted">#78909C</color>
+    <color name="overlay_divider">#33FFFFFF</color>
+    <color name="overlay_badge_bg">#33FFFFFF</color>
+</resources>

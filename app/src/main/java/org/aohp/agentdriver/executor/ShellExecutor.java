@@ -521,7 +521,27 @@ public class ShellExecutor {
             return aohpUnavailableFuture(null);
         }
         Log.i(TAG, "[AOHP] 在显示器 " + displayId + " 上输入文字: " + text);
-        return CompletableFuture.completedFuture(aohp().injectText(displayId, text));
+        CommandResult binder = aohp().injectText(displayId, text);
+        if (binder.success) {
+            return CompletableFuture.completedFuture(binder);
+        }
+        Log.w(TAG, "[AOHP] injectText via Binder failed (" + binder.error
+                + "); falling back to shell input");
+        String escaped = escapeInputTextForShell(text);
+        String command = String.format("input -d %d text \"%s\"", displayId, escaped);
+        return executeAsync(command);
+    }
+
+    /**
+     * Escape text for {@code adb shell input text}: spaces become {@code %s}; quotes are escaped.
+     */
+    private static String escapeInputTextForShell(String text) {
+        if (text == null) {
+            return "";
+        }
+        return text.replace(" ", "%s")
+                .replace("\"", "\\\"")
+                .replace("'", "\\'");
     }
 
     /**

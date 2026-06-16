@@ -1,6 +1,12 @@
 package org.aohp.agentdriver.executor.ws;
 
+import android.Manifest;
 import android.content.Context;
+import android.content.pm.PackageManager;
+import android.database.Cursor;
+import android.net.Uri;
+import android.provider.ContactsContract;
+import android.telephony.SmsManager;
 import android.util.Base64;
 import android.util.Log;
 import android.view.Display;
@@ -12,6 +18,7 @@ import org.aohp.agentdriver.executor.AohpEventStreamClient;
 import org.aohp.agentdriver.executor.AohpSecurityBridgeClient;
 import org.aohp.agentdriver.executor.AohpVdClient;
 import org.aohp.agentdriver.executor.MyAccessibilityService;
+import org.aohp.agentdriver.executor.SensorCameraCapture;
 import org.aohp.agentdriver.executor.ShellExecutor;
 import org.aohp.agentdriver.executor.file.FileBridgeManager;
 import org.aohp.agentdriver.overlay.AgentOverlayManager;
@@ -20,6 +27,8 @@ import org.aohp.agentdriver.overlay.TapHighlightManager;
 import org.aohp.agentdriver.uda.UdaManager;
 
 import org.java_websocket.WebSocket;
+import androidx.core.content.ContextCompat;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -63,6 +72,9 @@ public final class JsonCommandHandler {
             "dpadRight",
             "dpadCenter",
     };
+
+    /** Delay after tap-before-type so the target field can take focus (dialogs, ViewPager tabs). */
+    private static final int INPUT_FOCUS_SETTLE_MS = 250;
 
     /** {@code act.input} / {@code act.input_node}: {@code replace} clears then types (default). */
     private static final int INPUT_MODE_REPLACE = 0;
@@ -183,6 +195,8 @@ public final class JsonCommandHandler {
                 return shotRegion(p);
             case "shot.node":
                 return shotNode(p);
+            case "sensor.camera.capture":
+                return sensorCameraCapture(p);
             case "app.list":
                 return appList(p);
             case "app.info":
@@ -221,6 +235,8 @@ public final class JsonCommandHandler {
                 return wrapFuture(mShell.sleepScreen());
             case "sys.unlock":
                 return wrapFuture(mShell.unlockScreen());
+            case "sms.send":
+                return completedJson(() -> smsSend(p));
             case "sandbox.list":
                 return completedJson(this::sandboxList);
             case "sandbox.create":
@@ -500,31 +516,25 @@ public final class JsonCommandHandler {
     }
 
     /**
-     * After the target field is focused: replace = clear (via {@code ACTION_SET_TEXT}) then type;
-     * append = MOVE_END + type; prepend = MOVE_HOME + type.
+     * After the target field is focused: replace = clear (via {@code ACTION_SET_TEXT}) then inject
+     * keystrokes; append = MOVE_END + type; prepend = MOVE_HOME + type.
      * Uses {@code nodeId} when present ({@code >0}): same id as {@code ui.tree} for the field to clear.
      * When {@code nodeId <= 0}, clears the focused editable. Optional {@code clearCount} is ignored
      * (kept for RPC backward compatibility).
+     * <p>
+     * Replace avoids committing the final string solely via {@code ACTION_SET_TEXT}: some apps (e.g.
+     * Fossify Notes) update the widget but skip persistence listeners unless real key injection runs.
      */
     private CompletableFuture<JSONObject> completeInputAfterFocusJson(
             int displayId, String text, int mode, JSONObject p) {
         int flags = p.optInt("flags", 0);
         int nodeIdForClear = p.optInt("nodeId", 0);
         if (mode == INPUT_MODE_REPLACE) {
-            return mShell.setTextOnDisplay(displayId, nodeIdForClear, text, flags).thenCompose(cr -> {
-                if (cr.success) {
-                    return CompletableFuture.completedFuture(crToJson(cr));
+            return mShell.clearTextOnDisplay(displayId, nodeIdForClear, flags).thenCompose(clr -> {
+                if (!clr.success && !isAohpTextApiSkippableMismatch(clr)) {
+                    return CompletableFuture.completedFuture(crToJson(clr));
                 }
-                if (!isAohpTextApiSkippableMismatch(cr)) {
-                    return CompletableFuture.completedFuture(crToJson(cr));
-                }
-                // Fallback for images without setEditableText: clear + key injection.
-                return mShell.clearTextOnDisplay(displayId, nodeIdForClear, flags).thenCompose(clr -> {
-                    if (!clr.success && !isAohpTextApiSkippableMismatch(clr)) {
-                        return CompletableFuture.completedFuture(crToJson(clr));
-                    }
-                    return mShell.inputTextOnDisplay(displayId, text).thenApply(this::crToJson);
-                });
+                return mShell.inputTextOnDisplay(displayId, text).thenApply(this::crToJson);
             });
         }
         if (mode == INPUT_MODE_APPEND) {
@@ -1042,6 +1052,7 @@ public final class JsonCommandHandler {
                     return crToJson(tap);
                 }
                 if (input) {
+                    Thread.sleep(INPUT_FOCUS_SETTLE_MS);
                     int mode = parseInputMode(p);
                     if (mode < 0) {
                         return errObj("bad_input_mode", "inputMode must be replace, append, or prepend");
@@ -1419,6 +1430,16 @@ public final class JsonCommandHandler {
         });
     }
 
+    private CompletableFuture<JSONObject> sensorCameraCapture(JSONObject p) {
+        String defPath = SensorCameraCapture.defaultOutputPath();
+        String optPath = p.optString("path", defPath);
+        final String path = (optPath == null || optPath.isEmpty()) ? defPath : optPath;
+        int facing = p.optInt("facing", 0);
+        int quality = p.optInt("quality", 90);
+        return CompletableFuture.supplyAsync(() -> crToJson(
+                SensorCameraCapture.captureStill(mContext, path, facing, quality)));
+    }
+
     private CompletableFuture<JSONObject> shotFull(JSONObject p) {
         int displayId = resolveDisplayId(p);
         int q = p.optInt("quality", 85);
@@ -1609,6 +1630,110 @@ public final class JsonCommandHandler {
         return f.thenApply(this::crToJson);
     }
 
+    private JSONObject smsSend(JSONObject p) {
+        if (ContextCompat.checkSelfPermission(mContext, Manifest.permission.SEND_SMS)
+                != PackageManager.PERMISSION_GRANTED) {
+            return errObj("permission", "SEND_SMS not granted");
+        }
+        try {
+            String body = p.getString("body");
+            if (body == null || body.trim().isEmpty()) {
+                return errObj("bad_args", "body is required");
+            }
+            String address = resolveSmsAddress(p);
+            if (address == null || address.trim().isEmpty()) {
+                return errObj("bad_args", "address or contactName required");
+            }
+            SmsManager sms = SmsManager.getDefault();
+            if (sms == null) {
+                return errObj("sms", "SmsManager unavailable");
+            }
+            sms.sendTextMessage(address, null, body, null, null);
+            JSONObject o = new JSONObject();
+            o.put("ok", true);
+            o.put("address", address);
+            o.put("body", body);
+            return o;
+        } catch (JSONException e) {
+            return errObj("bad_args", e.getMessage());
+        } catch (Exception e) {
+            return errObj("sms", e.getMessage());
+        }
+    }
+
+    private String resolveSmsAddress(JSONObject p) throws JSONException {
+        if (p.has("address")) {
+            String address = p.getString("address").trim();
+            if (!address.isEmpty()) {
+                return normalizePhone(address);
+            }
+        }
+        String contactName = p.optString("contactName", "").trim();
+        if (contactName.isEmpty() && p.has("to")) {
+            contactName = p.getString("to").trim();
+        }
+        if (contactName.isEmpty()) {
+            throw new JSONException("address or contactName required");
+        }
+        if (looksLikePhone(contactName)) {
+            return normalizePhone(contactName);
+        }
+        String fromContacts = lookupContactPhone(contactName);
+        if (fromContacts != null) {
+            return fromContacts;
+        }
+        throw new JSONException("contact not found: " + contactName);
+    }
+
+    private static boolean looksLikePhone(String value) {
+        int digits = 0;
+        for (int i = 0; i < value.length(); i++) {
+            char c = value.charAt(i);
+            if (c >= '0' && c <= '9') {
+                digits++;
+            }
+        }
+        return digits >= 7;
+    }
+
+    private static String normalizePhone(String value) {
+        StringBuilder out = new StringBuilder();
+        for (int i = 0; i < value.length(); i++) {
+            char c = value.charAt(i);
+            if (c == '+' || (c >= '0' && c <= '9')) {
+                out.append(c);
+            }
+        }
+        return out.toString();
+    }
+
+    private String lookupContactPhone(String displayName) {
+        Uri uri = ContactsContract.CommonDataKinds.Phone.CONTENT_URI;
+        String[] projection = {ContactsContract.CommonDataKinds.Phone.NUMBER};
+        String selection = ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME + "=?";
+        try (Cursor c = mContext.getContentResolver().query(
+                uri, projection, selection, new String[]{displayName}, null)) {
+            if (c != null && c.moveToFirst()) {
+                return normalizePhone(c.getString(0));
+            }
+        } catch (Exception e) {
+            Log.w(TAG, "lookupContactPhone exact", e);
+        }
+        try (Cursor c = mContext.getContentResolver().query(
+                uri,
+                projection,
+                ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME + " LIKE ?",
+                new String[]{"%" + displayName + "%"},
+                ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME + " ASC")) {
+            if (c != null && c.moveToFirst()) {
+                return normalizePhone(c.getString(0));
+            }
+        } catch (Exception e) {
+            Log.w(TAG, "lookupContactPhone like", e);
+        }
+        return null;
+    }
+
     private JSONObject eventRegister(JSONObject p) {
         String clientId = p.optString("clientId", "aohp-cli");
         JSONObject opts = new JSONObject();
@@ -1626,11 +1751,11 @@ public final class JsonCommandHandler {
         copyIfPresent(p, opts, "inlineScreenshots");
         copyIfPresent(p, opts, "maxEvents");
         JSONObject result = mEventStream.drain(sessionId, opts);
-        resolveToastVaultTokensInDrain(result);
+        resolveVaultTokensInDrain(result);
         return result;
     }
 
-    private void resolveToastVaultTokensInDrain(JSONObject drainResult) {
+    private void resolveVaultTokensInDrain(JSONObject drainResult) {
         if (drainResult == null || !drainResult.optBoolean("ok", false)) {
             return;
         }
@@ -1641,22 +1766,19 @@ public final class JsonCommandHandler {
         boolean changed = false;
         for (int i = 0; i < events.length(); i++) {
             JSONObject event = events.optJSONObject(i);
-            if (event == null || !"toast".equals(event.optString("type"))) {
+            if (event == null) {
                 continue;
             }
-            String text = event.optString("text", "");
-            if (text.isEmpty() || !text.contains("aohp://vault/")) {
-                continue;
-            }
-            String resolved = mSecurityBridge.resolveVaultReference(text);
-            if (resolved.equals(text)) {
-                continue;
-            }
-            try {
-                event.put("text", resolved);
-                event.put("aohpVaultResolved", true);
+            if (resolveVaultField(event, "text")) {
                 changed = true;
-            } catch (JSONException ignored) {
+            }
+            JSONObject notification = event.optJSONObject("notification");
+            if (notification != null) {
+                if (resolveVaultField(notification, "title")
+                        | resolveVaultField(notification, "text")
+                        | resolveVaultField(notification, "bigText")) {
+                    changed = true;
+                }
             }
         }
         if (!changed) {
@@ -1666,6 +1788,24 @@ public final class JsonCommandHandler {
             drainResult.put("events", events);
             drainResult.put("summary", summarizeDrainEvents(events));
         } catch (JSONException ignored) {
+        }
+    }
+
+    private boolean resolveVaultField(JSONObject obj, String key) {
+        String text = obj.optString(key, "");
+        if (text.isEmpty() || !text.contains("aohp://vault/")) {
+            return false;
+        }
+        String resolved = mSecurityBridge.resolveVaultReference(text);
+        if (resolved.equals(text)) {
+            return false;
+        }
+        try {
+            obj.put(key, resolved);
+            obj.put("aohpVaultResolved", true);
+            return true;
+        } catch (JSONException ignored) {
+            return false;
         }
     }
 

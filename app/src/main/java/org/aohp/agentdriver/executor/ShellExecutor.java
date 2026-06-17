@@ -1,8 +1,10 @@
 package org.aohp.agentdriver.executor;
 
+import android.app.ActivityOptions;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.net.Uri;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
@@ -452,6 +454,59 @@ public class ShellExecutor {
         }
         Log.i(TAG, "[AOHP] 在显示器 " + displayId + " 上启动应用: " + packageName);
         return CompletableFuture.completedFuture(aohp().startLauncherOnDisplay(displayId, packageName));
+    }
+
+    /**
+     * Start an app via an explicit intent (e.g. {@code ACTION_VIEW} with a file URI).
+     * Falls back to {@link #launchAppOnDisplay} when action or data are omitted.
+     */
+    public CompletableFuture<CommandResult> startAppWithIntent(
+            int displayId,
+            String packageName,
+            String action,
+            String dataUri,
+            String mimeType) {
+        return CompletableFuture.supplyAsync(() -> {
+            CommandResult result = new CommandResult();
+            Context ctx = mHostContext != null ? mHostContext : applicationContextOrNull();
+            if (ctx == null) {
+                result.success = false;
+                result.error = "no host context";
+                result.exitCode = -1;
+                return result;
+            }
+            try {
+                Intent intent = new Intent(action);
+                Uri uri = Uri.parse(dataUri);
+                if (mimeType != null && !mimeType.isEmpty()) {
+                    intent.setDataAndType(uri, mimeType);
+                } else {
+                    intent.setData(uri);
+                }
+                if (packageName != null && !packageName.isEmpty()) {
+                    intent.setPackage(packageName);
+                }
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                if (displayId != Display.DEFAULT_DISPLAY && Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                    ActivityOptions options = ActivityOptions.makeBasic();
+                    options.setLaunchDisplayId(displayId);
+                    ctx.startActivity(intent, options.toBundle());
+                } else {
+                    ctx.startActivity(intent);
+                }
+                result.success = true;
+                result.output = "OK";
+                result.exitCode = 0;
+                Log.i(TAG, "[Intent] display=" + displayId + " pkg=" + packageName
+                        + " action=" + action + " data=" + dataUri);
+            } catch (Exception e) {
+                result.success = false;
+                result.error = e.getMessage() != null ? e.getMessage() : "startAppWithIntent";
+                result.exitCode = 1;
+                Log.e(TAG, "startAppWithIntent failed", e);
+            }
+            return result;
+        }, executor);
     }
 
     /**

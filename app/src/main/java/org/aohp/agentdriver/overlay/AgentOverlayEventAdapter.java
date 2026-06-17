@@ -17,6 +17,8 @@ import java.util.Locale;
 
 final class AgentOverlayEventAdapter extends RecyclerView.Adapter<AgentOverlayEventAdapter.Holder> {
 
+    static final Object PAYLOAD_BODY = new Object();
+
     private final List<AgentOverlayEvent> events = new ArrayList<>();
 
     void setEvents(List<AgentOverlayEvent> next) {
@@ -39,6 +41,25 @@ final class AgentOverlayEventAdapter extends RecyclerView.Adapter<AgentOverlayEv
             return;
         }
         notifyItemChanged(position);
+    }
+
+    void notifyEventChanged(int position, Object payload) {
+        if (position < 0 || position >= events.size()) {
+            return;
+        }
+        notifyItemChanged(position, payload);
+    }
+
+    @Override
+    public void onBindViewHolder(@NonNull Holder holder, int position, @NonNull List<Object> payloads) {
+        if (!payloads.isEmpty()) {
+            AgentOverlayEvent event = events.get(position);
+            String body = bodyFor(event);
+            holder.body.setText(body);
+            holder.body.setVisibility(body.length() > 0 ? View.VISIBLE : View.GONE);
+            return;
+        }
+        onBindViewHolder(holder, position);
     }
 
     @NonNull

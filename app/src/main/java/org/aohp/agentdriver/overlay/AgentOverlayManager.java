@@ -68,7 +68,10 @@ public final class AgentOverlayManager {
     private String mRunId = "";
     private final List<AgentOverlayEvent> mEvents = new ArrayList<>();
     private final Set<String> mSeenKeys = new HashSet<>();
+    private final Set<Integer> mPendingThinkingRefresh = new LinkedHashSet<>();
+    private boolean mThinkingRefreshScheduled;
     private State mState = State.IDLE;
+    private static final long THINKING_UI_THROTTLE_MS = 80L;
 
     public enum State {
         IDLE,
@@ -156,6 +159,9 @@ public final class AgentOverlayManager {
         mRunId = runId != null ? runId : "";
         mEvents.clear();
         mSeenKeys.clear();
+        mPendingThinkingRefresh.clear();
+        mThinkingRefreshScheduled = false;
+        mMainHandler.removeCallbacks(this::flushThinkingRefresh);
         ensureViews();
         if (mTvTitle != null) {
             mTvTitle.setText(title != null && !title.isEmpty() ? title : mContext.getString(R.string.overlay_title));
@@ -215,7 +221,12 @@ public final class AgentOverlayManager {
             }
         }
         for (int position : changedPositions) {
-            mAdapter.notifyEventChanged(position);
+            AgentOverlayEvent changed = mEvents.get(position);
+            if ("thinking".equals(changed.type)) {
+                scheduleThinkingRefresh(position);
+            } else {
+                mAdapter.notifyEventChanged(position);
+            }
         }
         if (!inserted.isEmpty()) {
             mAdapter.appendEvents(inserted);
@@ -269,6 +280,9 @@ public final class AgentOverlayManager {
         mRunId = "";
         mEvents.clear();
         mSeenKeys.clear();
+        mPendingThinkingRefresh.clear();
+        mThinkingRefreshScheduled = false;
+        mMainHandler.removeCallbacks(this::flushThinkingRefresh);
     }
 
     private boolean ensureOverlayPermission() {
@@ -298,6 +312,7 @@ public final class AgentOverlayManager {
         mRvEvents = mOverlayView.findViewById(R.id.rv_overlay_events);
         mAdapter = new AgentOverlayEventAdapter();
         mRvEvents.setLayoutManager(new LinearLayoutManager(mContext));
+        mRvEvents.setItemAnimator(null);
         mRvEvents.setAdapter(mAdapter);
         disableTouches(mOverlayView);
 
@@ -607,6 +622,30 @@ public final class AgentOverlayManager {
         long ts = raw.optLong("ts", System.currentTimeMillis());
         String requestId = firstNonEmpty(raw, "request_id", "requestId");
         return new AgentOverlayEvent(type, id, name, text, args, output, isError, duration, ts, requestId);
+    }
+
+    private void scheduleThinkingRefresh(int position) {
+        if (position < 0 || position >= mEvents.size()) {
+            return;
+        }
+        mPendingThinkingRefresh.add(position);
+        if (!mThinkingRefreshScheduled) {
+            mThinkingRefreshScheduled = true;
+            mMainHandler.postDelayed(this::flushThinkingRefresh, THINKING_UI_THROTTLE_MS);
+        }
+    }
+
+    private void flushThinkingRefresh() {
+        mThinkingRefreshScheduled = false;
+        if (mPendingThinkingRefresh.isEmpty()) {
+            return;
+        }
+        Set<Integer> positions = new LinkedHashSet<>(mPendingThinkingRefresh);
+        mPendingThinkingRefresh.clear();
+        for (int position : positions) {
+            mAdapter.notifyEventChanged(position, AgentOverlayEventAdapter.PAYLOAD_BODY);
+        }
+        scrollEventsToBottom();
     }
 
     /** Keep the latest timeline row fully visible (streaming thinking can exceed RV height). */

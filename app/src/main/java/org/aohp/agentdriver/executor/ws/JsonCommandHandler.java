@@ -1578,6 +1578,13 @@ public final class JsonCommandHandler {
     private CompletableFuture<JSONObject> appStart(JSONObject p) {
         int displayId = resolveDisplayId(p);
         String pkg = p.optString("packageName", "");
+        String action = p.optString("action", "");
+        String data = p.optString("data", p.optString("dataUri", ""));
+        String mimeType = p.optString("mimeType", p.optString("type", ""));
+        if (!action.isEmpty() && !data.isEmpty()) {
+            return mShell.startAppWithIntent(displayId, pkg, action, data, mimeType)
+                    .thenApply(this::crToJson);
+        }
         return mShell.launchAppOnDisplay(displayId, pkg, null).thenApply(this::crToJson);
     }
 

@@ -44,53 +44,8 @@ public final class AgentOverlayEvent {
         if (text == null || text.isEmpty()) {
             text = more;
         } else {
-            text = text + joinWithSpacing(text, more);
+            text = text + more;
         }
-    }
-
-    /** Insert a space between streamed tokens when the model/API omits it. */
-    private static String joinWithSpacing(String existing, String more) {
-        if (existing.isEmpty() || more.isEmpty()) {
-            return more;
-        }
-        char last = existing.charAt(existing.length() - 1);
-        char first = more.charAt(0);
-        if (Character.isWhitespace(last) || Character.isWhitespace(first)) {
-            return more;
-        }
-        if (isAttachPunctuation(first) || isOpenPunctuation(last)) {
-            return more;
-        }
-        if (Character.isLetterOrDigit(last) && Character.isLetterOrDigit(first)) {
-            return " " + more;
-        }
-        if (isCjk(last) && isCjk(first)) {
-            return more;
-        }
-        if ((isCjk(last) && Character.isLetterOrDigit(first))
-                || (Character.isLetterOrDigit(last) && isCjk(first))) {
-            return more;
-        }
-        return " " + more;
-    }
-
-    private static boolean isAttachPunctuation(char c) {
-        return c == '.' || c == ',' || c == ';' || c == ':' || c == '!' || c == '?'
-                || c == ')' || c == ']' || c == '}' || c == '%' || c == '\'';
-    }
-
-    private static boolean isOpenPunctuation(char c) {
-        return c == '(' || c == '[' || c == '{' || c == '"' || c == '\'';
-    }
-
-    private static boolean isCjk(char c) {
-        Character.UnicodeBlock block = Character.UnicodeBlock.of(c);
-        return block == Character.UnicodeBlock.CJK_UNIFIED_IDEOGRAPHS
-                || block == Character.UnicodeBlock.CJK_UNIFIED_IDEOGRAPHS_EXTENSION_A
-                || block == Character.UnicodeBlock.CJK_UNIFIED_IDEOGRAPHS_EXTENSION_B
-                || block == Character.UnicodeBlock.HIRAGANA
-                || block == Character.UnicodeBlock.KATAKANA
-                || block == Character.UnicodeBlock.HANGUL_SYLLABLES;
     }
 
     /** Replace args with a newer streaming snapshot (proxy sends full cumulative JSON). */
